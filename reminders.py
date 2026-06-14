@@ -104,7 +104,7 @@ def mark_task_done(keyword: str) -> str:
             found = True
     save_tasks(tasks)
     return "✅ Done!" if found else "❌ Task not found"
-
+    
 def start_reminder_scheduler(bot):
     scheduler = AsyncIOScheduler(timezone=TIMEZONE)
     scheduler.add_job(
@@ -118,8 +118,10 @@ def start_reminder_scheduler(bot):
     )
     scheduler.add_job(
     morning_briefing,
-    "date",
-    run_date=datetime.now(TIMEZONE),
+    "cron",
+    hour=9,
+    minute=0,
+    timezone=TIMEZONE,
     args=[bot],
     id="morning_briefing",
     replace_existing=True,
